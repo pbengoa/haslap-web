@@ -1,0 +1,167 @@
+@import 'tailwindcss';
+
+/*
+ * Sistema de color de Haslap — regla 60 / 25 / 10 / 5
+ *
+ *  60%  BASE       blanco y superficie casi blanca. Fondos, tarjetas, aire e imágenes.
+ *                  Es el 60% que evita la sobrecarga cognitiva: si dudas, deja blanco.
+ *  25%  IDENTIDAD  verde principal #4A7D76. Marca, tarjetas, eventos, clubes, iconos,
+ *                  superficies destacadas y las acciones que viven dentro de una tarjeta.
+ *  10%  TEXTO      #1E2A27 — nunca negro puro. Lleva un matiz verde para que el texto
+ *                  pertenezca al sistema en vez de flotar sobre él.
+ *   5%  ACENTO     verde flúor #D8FF2A. Vida y adrenalina. Solo CTA principal, botones
+ *                  primarios y lo que deba atraer la mirada. Si aparece en todas partes,
+ *                  deja de guiar: como máximo uno o dos por pantalla.
+ */
+@theme {
+  /* ---------- BASE (60%) ---------- */
+  --color-base: #ffffff;
+  --color-superficie: #f5f8f7;
+
+  /* ---------- IDENTIDAD (25%) ---------- */
+  --color-verde: #4a7d76;
+  --color-verde-900: #22403a;
+  --color-verde-800: #2d554e;
+  --color-verde-700: #3c6c64;
+  --color-verde-100: #e3efec;
+  --color-verde-50: #f1f7f5;
+
+  /* ---------- TEXTO (10%) — nunca #000 ---------- */
+  --color-texto: #1e2a27;
+  --color-texto-suave: #5c6b67;
+  --color-texto-tenue: #8d9995;
+
+  /* ---------- ACENTO (5%) ---------- */
+  --color-fluor: #d8ff2a;
+  --color-fluor-600: #c2e800;
+
+  /* ---------- Líneas y separadores ---------- */
+  --color-linea: #e2e9e7;
+  --color-linea-suave: #eff3f2;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Radios del design system: 8 / 12 / 16 / 24 / 32 / 999 */
+  --radius-ds-sm: 8px;
+  --radius-ds-md: 12px;
+  --radius-ds-lg: 16px;
+  --radius-ds-xl: 24px;
+  --radius-ds-2xl: 32px;
+
+  --shadow-card: 0 1px 2px rgb(30 42 39 / 0.04), 0 8px 24px -12px rgb(30 42 39 / 0.12);
+  --shadow-card-hover: 0 2px 4px rgb(30 42 39 / 0.06), 0 24px 48px -20px rgb(30 42 39 / 0.2);
+  --shadow-modal: 0 32px 80px -24px rgb(30 42 39 / 0.32);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-superficie text-texto font-sans antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-verde);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  .contenedor {
+    @apply mx-auto w-full max-w-[1240px] px-5 sm:px-8;
+  }
+
+  /* ---------------------------------------------------------------
+   * Botones. El nombre dice el papel en la regla, no el color:
+   *   btn-acento     → 5%, la acción más importante de la pantalla
+   *   btn-identidad  → 25%, acciones dentro de tarjetas y bloques de marca
+   *   btn-contorno   → base, alternativas y acciones ya realizadas
+   *   btn-fantasma   → base, navegación secundaria
+   * --------------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold
+           transition-colors disabled:cursor-not-allowed disabled:opacity-45;
+  }
+  .btn-sm {
+    @apply h-9 px-4 text-[13px];
+  }
+  .btn-md {
+    @apply h-11 px-5;
+  }
+  .btn-lg {
+    @apply h-13 px-7 text-[15px];
+  }
+
+  .btn-acento {
+    @apply bg-fluor text-texto hover:bg-fluor-600;
+  }
+  .btn-identidad {
+    @apply bg-verde text-white hover:bg-verde-700;
+  }
+  .btn-contorno {
+    @apply border border-verde/30 bg-white text-verde hover:bg-verde-50;
+  }
+  .btn-fantasma {
+    @apply text-verde hover:bg-verde-50;
+  }
+
+  /* Sobre superficie verde el contorno se invierte. */
+  .btn-contorno-claro {
+    @apply border border-white/25 bg-transparent text-white hover:bg-white/10;
+  }
+
+  .tarjeta {
+    @apply rounded-ds-lg border border-linea bg-white shadow-card;
+  }
+
+  .campo {
+    @apply h-11 w-full rounded-ds-md border border-linea bg-white px-4 text-sm
+           text-texto placeholder:text-texto-tenue
+           focus:border-verde focus:ring-2 focus:ring-verde/15 focus:outline-none;
+  }
+
+  .etiqueta {
+    @apply mb-1.5 block text-[13px] font-medium text-texto-suave;
+  }
+
+  .chip {
+    @apply inline-flex h-9 items-center gap-1.5 rounded-full border border-linea bg-white
+           px-4 text-[13px] font-medium text-texto-suave transition-colors
+           hover:border-verde/40 hover:text-verde;
+  }
+  .chip-activo {
+    @apply border-verde bg-verde text-white hover:text-white;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold;
+  }
+}
+
+/* Degradado de marca detrás de cada imagen: si la foto no carga, la tarjeta aguanta. */
+.portada-fallback {
+  background-image: linear-gradient(135deg, var(--color-verde) 0%, var(--color-verde-900) 55%, #16241f 100%);
+}
+
+/*
+ * Trama diagonal de los bloques verde oscuro (hero y cierre).
+ *
+ * Es flúor al 7%: a esa opacidad no cuenta como acento —no compite con el CTA—
+ * pero evita que el bloque oscuro quede plano. Va en un pseudo-elemento propio
+ * para que el contenido no herede ningún fondo.
+ */
+.patron-diagonal {
+  background-image: repeating-linear-gradient(
+    72deg,
+    rgb(216 255 42 / 0.07) 0 1px,
+    transparent 1px 92px
+  );
+}

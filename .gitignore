@@ -1,0 +1,22 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+
+# Copia de trabajo antigua: se trabaja en web/
+Copia de web/
+
+# Checkout del modulo de PrestaShop: tiene su propio repo.
+# Anclado a la raiz: sin la barra inicial tambien ignoraria server/src/haslapapp,
+# que es nuestro BFF y si va al repo.
+/haslapapp/
+
+# Descargas sueltas que no son del proyecto
+_to_delete/
+
+# Entregables binarios
+*.pptx
+
+# Config local de Claude Code (rutas absolutas de esta maquina)
+.claude/

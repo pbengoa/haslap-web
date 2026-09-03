@@ -1,0 +1,24 @@
+{
+  "name": "haslap-mvp-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MVP web de Haslap — descubrir e inscribirse a eventos de running (React + Node)",
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c green,magenta \"npm run dev -w haslap-server\" \"npm run dev -w haslap-web\"",
+    "dev:api": "npm run dev -w haslap-server",
+    "dev:web": "npm run dev -w haslap-web",
+    "build": "npm run build -w haslap-web",
+    "dev:dummy": "HASLAP_MODO=dummy npm run dev",
+    "start": "npm start -w haslap-server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}

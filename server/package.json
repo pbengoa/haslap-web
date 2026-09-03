@@ -1,0 +1,18 @@
+{
+  "name": "haslap-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "API del MVP web de Haslap",
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --watch src/index.js",
+    "start": "node --env-file-if-exists=.env src/index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "google-auth-library": "^11.0.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
