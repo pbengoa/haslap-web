@@ -11,27 +11,24 @@ nvm use && npm install && npm run dev
 
 Web en http://localhost:5173.
 
-## Necesita una API
+## De dónde salen los datos
 
-Este repo es **solo el front**. No funciona solo: el navegador no puede hablar
-con el backend de PrestaShop directamente —la cookie de sesión es
-`SameSite=Lax` y no viaja cross-site— y además la forma en que responde no es la
-que consume esta interfaz. Entre medias va un BFF en Node, que vive fuera de
-este repositorio.
+El navegador habla **directo** con el módulo `haslapapp` de PrestaShop. No hay
+servidor intermedio: el módulo autentica por Bearer token y admite peticiones
+cross-origin, así que el front se basta solo y se despliega como sitio estático.
 
-| Situación | Qué configurar |
-|---|---|
-| Desarrollo | Nada. El proxy de Vite reenvía `/api` a `http://localhost:4000` |
-| Front desplegado por su cuenta | `VITE_API_URL` con el dominio del servidor |
+La traducción entre lo que responde PrestaShop y lo que consume la interfaz vive
+en `src/lib/mapeo.ts`, y el cliente HTTP en `src/lib/haslapapp.ts`. Si un campo
+llega raro, esos son los dos sitios donde mirar.
 
-Sin API el catálogo aparece vacío y el acceso falla.
+Con `VITE_API_URL` vacío se apunta a PRE (`haslap.okoiagency.com`).
 
 ## Variables
 
 Copia `.env.example` a `.env`. Todas se leen **al construir**, así que un cambio
 obliga a volver a construir.
 
-- `VITE_API_URL` — dónde vive la API. Vacío = mismo origen.
+- `VITE_API_URL` — el PrestaShop contra el que se trabaja. Vacío = PRE.
 - `VITE_FIREBASE_*` — acceso por teléfono. Son públicas por diseño; la seguridad
   está en los dominios autorizados de Firebase, no en ocultarlas.
 

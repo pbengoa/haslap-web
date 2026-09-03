@@ -66,7 +66,9 @@ export function ModalCrearEvento({ abierto, onCerrar }: { abierto: boolean; onCe
       const { evento } = await api.crearEvento(datos);
       aviso('¡Evento publicado! Ya aparece en Descubrir.');
       cerrar();
-      navigate(`/eventos/${evento.slug}`);
+      // El backend responde con la salida creada, pero si no la devolviera no
+      // hay a dónde navegar: se queda en el listado, que ya la incluye.
+      navigate(evento ? `/eventos/${evento.slug}` : '/eventos');
     } catch (e) {
       setError(e instanceof ErrorApi ? e.message : 'No pudimos crear el evento.');
     } finally {

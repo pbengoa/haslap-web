@@ -257,8 +257,10 @@ export function DetalleEvento({
       >
         <motion.section variants={subirYAparecer}>
           <h2 className="text-[17px] font-bold text-texto">Descripción</h2>
-          {evento.descripcion.split('\n\n').map((parrafo) => (
-            <p key={parrafo} className="mt-3 text-[14px] leading-relaxed text-texto-suave">
+          {/* La posición, y no el texto, como clave: una descripción puede
+              repetir un párrafo y React necesita claves únicas. */}
+          {evento.descripcion.split('\n\n').map((parrafo, i) => (
+            <p key={i} className="mt-3 text-[14px] leading-relaxed text-texto-suave">
               {parrafo}
             </p>
           ))}

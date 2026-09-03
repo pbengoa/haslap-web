@@ -9,26 +9,37 @@ const mesesCortos = [
 
 const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+/**
+ * Las fechas pueden faltar: el backend guarda `start_date` como texto y el
+ * mapeo devuelve `null` cuando no tiene la forma esperada. Los formateadores
+ * devuelven un guion en vez de "Invalid Date", que es lo que se veria si no.
+ */
+const SIN_FECHA = '—';
+
 /** "Sábado, 25 de mayo de 2026" */
-export function fechaLarga(iso: string) {
+export function fechaLarga(iso: string | null) {
+  if (!iso) return SIN_FECHA;
   const d = new Date(iso);
   return `${capital(dias[d.getDay()])}, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
 }
 
 /** "25 May" */
-export function fechaCorta(iso: string) {
+export function fechaCorta(iso: string | null) {
+  if (!iso) return SIN_FECHA;
   const d = new Date(iso);
   return `${d.getDate()} ${mesesCortos[d.getMonth()]}`;
 }
 
 /** "08:30" */
-export function hora(iso: string) {
+export function hora(iso: string | null) {
+  if (!iso) return SIN_FECHA;
   const d = new Date(iso);
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 
 /** Etiqueta de la portada: "Hoy", "Mañana" o "Mié 5 Jun". */
-export function etiquetaFecha(iso: string) {
+export function etiquetaFecha(iso: string | null) {
+  if (!iso) return SIN_FECHA;
   const d = new Date(iso);
   const hoy = new Date();
   hoy.setHours(0, 0, 0, 0);

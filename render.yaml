@@ -1,7 +1,7 @@
 # Despliegue en Render como sitio estático.
 #
-# Aquí solo vive el front. La API es otro servicio, en otro repositorio: hay que
-# darle su dominio en VITE_API_URL o el catálogo sale vacío.
+# No hay servidor propio: el navegador habla directo con el módulo de
+# PrestaShop, así que esto es HTML, CSS y JS y nada más.
 services:
   - type: web
     name: haslap-web
@@ -13,8 +13,8 @@ services:
       - key: NODE_VERSION
         value: 22.18.0
 
-      # Dónde vive el BFF. Se lee al CONSTRUIR: si la cambias, hay que volver a
-      # desplegar para que entre en el bundle.
+      # El backend de PrestaShop. Se lee al CONSTRUIR: si la cambias, hay que
+      # volver a desplegar para que entre en el bundle.
       - key: VITE_API_URL
         sync: false
 

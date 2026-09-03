@@ -16,6 +16,8 @@ export type ClubResumen = {
 
 export type Entrada = {
   id: string;
+  /** Producto de PrestaShop detras de la entrada: lo que pide `addtocart`. */
+  idProducto: number | null;
   nombre: string;
   descripcion: string;
   precio: number | null;
@@ -38,7 +40,8 @@ export type Evento = {
   titulo: string;
   resumen: string;
   descripcion: string;
-  fecha: string;
+  fecha: string | null;
+  fechaFin: string | null;
   ciudad: string;
   lugar: string;
   direccion: string;
@@ -64,6 +67,9 @@ export type Evento = {
   completo: boolean;
   gratis: boolean;
   inscrito: boolean;
+  esRecurrente: boolean;
+  /** Lo organizo yo. Alimenta la pestana "Organizo yo" de Mis eventos. */
+  esOrganizador: boolean;
   clubId: string | null;
   club: ClubResumen | null;
   organizador: { id: string; nombre: string; avatar: string | null; ciudad: string } | null;
@@ -79,10 +85,12 @@ export type Club = {
   descripcion: string;
   nivel: string | null;
   salidasPorSemana: number | null;
+  totalEventos: number | null;
   miembros: number;
   portada: string;
   premium: boolean;
   esMiembro: boolean;
+  esOrganizador: boolean;
   organizador: { id: string; nombre: string; avatar: string | null } | null;
 };
 
