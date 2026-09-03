@@ -2,6 +2,17 @@ import type { Club, ConfigAuth, Evento, Meta, Usuario } from './tipos';
 
 const CLAVE_TOKEN = 'haslap.token';
 
+/**
+ * Dónde vive la API.
+ *
+ * Vacío significa "el mismo origen que la web": es lo que pasa en desarrollo,
+ * donde el proxy de Vite reenvía `/api` al Node local. Al desplegar el front
+ * por su cuenta hay que apuntarlo al dominio del servidor con `VITE_API_URL`,
+ * porque sin BFF no hay datos: el navegador no puede hablar con PrestaShop
+ * directamente ni entiende la forma en que responde.
+ */
+const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/+$/, '');
+
 export const tokenGuardado = () => localStorage.getItem(CLAVE_TOKEN);
 export const guardarToken = (token: string) => localStorage.setItem(CLAVE_TOKEN, token);
 export const borrarToken = () => localStorage.removeItem(CLAVE_TOKEN);
@@ -16,7 +27,7 @@ export class ErrorApi extends Error {
 
 async function pedir<T>(ruta: string, opciones: RequestInit = {}): Promise<T> {
   const token = tokenGuardado();
-  const respuesta = await fetch(`/api${ruta}`, {
+  const respuesta = await fetch(`${BASE}/api${ruta}`, {
     ...opciones,
     headers: {
       ...(opciones.body ? { 'Content-Type': 'application/json' } : {}),
